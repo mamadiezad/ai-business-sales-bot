@@ -1,35 +1,40 @@
 # 🤖 AI Business Sales Bot — ربات فروشنده هوشمند
 
-> **AI-powered sales assistant** for businesses. Embeddable in any website with one line of code.
-> **ربات فروشنده هوشمند با هوش مصنوعی** — مناسب برای فروشگاه‌های آنلاین، VPN فروش‌ها و هر کسب و کاری
+> **AI-powered sales assistant** for websites AND Telegram stores.
+> **ربات فروشنده هوشمند با هوش مصنوعی** — هم برای وبسایت، هم برای فروشگاه تلگرام
 
 [![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=nodedotjs)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-3178C6?logo=typescript)](https://typescriptlang.org)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?logo=openai)](https://openai.com)
+[![Telegram](https://img.shields.io/badge/Telegram-Bot-2CA5E0?logo=telegram)](https://core.telegram.org/bots)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
 ---
 
 ## ✨ قابلیت‌ها
 
+### 🌐 برای وبسایت
 | قابلیت | توضیح |
 |--------|-------|
 | 🧠 **AI فروشنده** | پاسخگویی هوشمند با OpenAI GPT-4o |
 | 🔌 **نصب آسان** | فقط یک خط کد روی هر سایتی |
-| 📦 **مدیریت محصولات** | افزودن/ویرایش محصولات و قیمت‌ها |
-| ❓ **FAQ هوشمند** | پاسخ به سوالات متداول کاربران |
-| 💬 **چت آنلاین** | شبیه به چت واقعی با انیمیشن تایپینگ |
-| 🎨 **سفارشی‌سازی** | تغییر رنگ، نام، توضیحات کسب و کار |
-| 🌐 **دو زبانه** | فارسی و انگلیسی |
-| 📊 **پنل مدیریت** | مدیریت محصولات و تنظیمات |
-| 🚀 **سبک و سریع** | بدون وابستگی خارجی، حجم کم |
+| 💬 **ویجت چت** | شناور در سایت، آماده پاسخگویی |
+| ❓ **FAQ هوشمند** | پاسخ به سوالات متداول |
+
+### 📱 برای فروشگاه تلگرام
+| قابلیت | توضیح |
+|--------|-------|
+| 🤖 **ربات فروشنده** | ربات هوشمند تلگرام برای فروشگاه شما |
+| 🛍️ **نمایش محصولات** | لیست محصولات با قیمت و توضیحات |
+| 🛒 **سبد خرید** | افزودن/حذف محصول، ثبت سفارش |
+| 🧠 **AI چت** | مشاوره هوشمند قبل از خرید |
+| 📞 **پشتیبانی** | ارتباط مستقیم با پشتیبان |
 
 ---
 
 ## 🚀 نصب سریع
 
 ### ۱. Clone & Install
-
 ```bash
 git clone https://github.com/mamadiezad/ai-business-sales-bot.git
 cd ai-business-sales-bot
@@ -37,70 +42,50 @@ npm install
 ```
 
 ### ۲. تنظیم `.env`
-
 ```bash
 cp .env.example .env
-# توکن OpenAI را در .env وارد کنید
+# توکن‌ها را در .env وارد کنید
 ```
 
 ### ۳. اجرا
-
 ```bash
 npm run dev
 ```
 
-### ۴. نصب روی سایت شما
+---
 
-فقط این یک خط کد را به سایت خود اضافه کنید:
+## 📱 فروشگاه تلگرام
 
+### ساخت ربات تلگرام فروشگاهی
+۱. برو به [@BotFather](https://t.me/BotFather)
+۲. بزن `/newbot` و اسم رباتتو بده
+۳. توکن رو کپی کن
+۴. بذار توی `.env`:
+```
+TELEGRAM_BOT_TOKEN=123456:ABC-DEF...
+```
+
+### منوی ربات تلگرام
+```
+🛍️ مشاهده محصولات    ❓ سوالات متداول
+🛒 سبد خرید           💬 چت با هوش مصنوعی
+📞 پشتیبانی           ℹ️ درباره ما
+```
+
+### مشتری میتونه:
+- محصولات رو ببینه
+- با AI چت کنه و مشاوره بگیره
+- به سبد خرید اضافه کنه
+- سفارش نهایی رو ثبت کنه
+
+---
+
+## 🌐 نصب روی وبسایت
+
+فقط این یک خط کد:
 ```html
 <script src="https://your-server.com/embed.js"></script>
 ```
-
----
-
-## 🛠️ API Reference
-
-### `POST /api/chat`
-ارسال پیام و دریافت پاسخ از AI
-
-```json
-{
-  "message": "محصولاتتون چیه؟",
-  "sessionId": "session_123"
-}
-```
-
-### `GET /api/products`
-دریافت لیست محصولات
-
-### `GET /api/business`
-دریافت اطلاعات کسب و کار
-
-### `GET /embed.js`
-اسکریپت نصب ویجت
-
----
-
-## 📋 مثال: فروشگاه VPN
-
-ربات به صورت پیش‌فرض با دانش یک فروشگاه VPN (SurfShield) راه‌اندازی می‌شود:
-
-- **محصولات**: ماهانه، سه ماهه، سالانه، مادام‌العمر، سازمانی
-- **FAQ**: نحوه خرید، پشتیبانی، سرورها، گارانتی
-- **پشتیبانی**: ۲۴ ساعته
-
-شما می‌توانید محصولات و اطلاعات را از طریق **پنل مدیریت** تغییر دهید.
-
----
-
-## 🎨 شخصی‌سازی
-
-ویرایش فایل `src/server/knowledge.ts` برای تغییر:
-- محصولات و قیمت‌ها
-- سوالات متداول
-- اطلاعات کسب و کار
-- رنگ‌ها و استایل
 
 ---
 
@@ -109,14 +94,16 @@ npm run dev
 ```
 ai-business-sales-bot/
 ├── src/
-│   ├── server/
-│   │   ├── index.ts       # سرور اصلی (Express)
-│   │   ├── ai.ts          # هوش مصنوعی (OpenAI)
-│   │   ├── knowledge.ts   # دانش کسب و کار
+│   ├── server/           # سرور اصلی (Express + OpenAI)
+│   │   ├── index.ts       # ورودی سرور
+│   │   ├── ai.ts          # موتور هوش مصنوعی
+│   │   ├── knowledge.ts   # محصولات، FAQ، اطلاعات کسب و کار
 │   │   └── config.ts      # تنظیمات
+│   ├── telegram/
+│   │   └── bot.ts         # ربات فروشگاه تلگرام
 │   ├── widget/
-│   │   ├── chat-widget.js # ویجت قابل نصب
-│   │   └── chat-widget.css# استایل ویجت
+│   │   ├── chat-widget.js # ویجت وبسایت
+│   │   └── chat-widget.css
 │   └── admin/
 │       └── index.html     # پنل مدیریت
 ├── .env.example
@@ -127,18 +114,14 @@ ai-business-sales-bot/
 ---
 
 ## 🔗 ریپوهای مرتبط
-
-- [🤖 ربات چت ناشناس تلگرام](https://github.com/mamadiezad/robot-chat-nashnas)
-- [📊 MT5 Grid Trading EA](https://github.com/mamadiezad/mt5-grid-trading-ea)
+- [🤖 ربات چت ناشناس](https://github.com/mamadiezad/robot-chat-nashnas)
+- [📊 MT5 Grid EA](https://github.com/mamadiezad/mt5-grid-trading-ea)
 
 ---
 
 ## 📜 لایسنس
-
 **MIT** — آزاد برای استفاده شخصی و تجاری.
 
 ---
 
-<p align="center">
-  ساخته شده با ❤️ توسط <a href="https://github.com/mamadiezad">Mohammad</a>
-</p>
+<p align="center">ساخته شده با ❤️ توسط <a href="https://github.com/mamadiezad">Mohammad</a></p>
