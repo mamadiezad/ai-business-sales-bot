@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🤖 AI Sales Bot — پنل مدیریت</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, sans-serif;
+      background: #0d1117;
+      color: #e0e0e0;
+      padding: 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 30px; color: #7c3aed; }
+    .card {
+      background: #1e1e2e;
+      border: 1px solid #313244;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .card h2 { margin-bottom: 16px; font-size: 18px; color: #7c3aed; }
+    label { display: block; margin-bottom: 6px; color: #a0a0b0; font-size: 13px; }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 14px;
+      background: #11111b;
+      border: 1px solid #313244;
+      border-radius: 8px;
+      color: #e0e0e0;
+      font-size: 14px;
+      margin-bottom: 14px;
+      outline: none;
+    }
+    input:focus, textarea:focus { border-color: #7c3aed; }
+    textarea { min-height: 80px; resize: vertical; }
+    .btn {
+      background: #7c3aed;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #6d28d9; }
+    .btn-danger { background: #dc2626; }
+    .btn-danger:hover { background: #b91c1c; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .badge {
+      display: inline-block;
+      background: #7c3aed22;
+      color: #7c3aed;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin: 2px;
+    }
+    #status { margin-top: 16px; padding: 12px; border-radius: 8px; display: none; }
+    .success { background: #22c55e22; color: #22c55e; display: block !important; }
+    .error { background: #dc262622; color: #dc2626; display: block !important; }
+    .code {
+      background: #11111b;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #313244;
+      font-family: monospace;
+      font-size: 13px;
+      color: #22c55e;
+      direction: ltr;
+      text-align: left;
+      margin-top: 8px;
+      user-select: all;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 AI Sales Bot — پنل مدیریت</h1>
+
+    <!-- Embed Code -->
+    <div class="card">
+      <h2>🔌 کد نصب روی سایت</h2>
+      <p style="color: #a0a0b0; margin-bottom: 12px;">
+        این کد را در بخش <code>&lt;head&gt;</code> یا قبل از بستن <code>&lt;/body&gt;</code> سایت خود قرار دهید.
+      </p>
+      <div class="code" id="embedCode">در حال بارگذاری...</div>
+      <button class="btn" onclick="copyCode()" style="margin-top: 8px;">📋 کپی کردن</button>
+    </div>
+
+    <!-- Business Info -->
+    <div class="card">
+      <h2>🏪 اطلاعات کسب و کار</h2>
+      <label>نام فروشگاه</label>
+      <input id="bizName" value="SurfShield VPN" />
+      <label>نام فارسی</label>
+      <input id="bizNameFa" value="سورف‌شیلد وی‌پی‌ان" />
+      <label>توضیحات</label>
+      <textarea id="bizDesc">فروشنده معتبر وی‌پی‌ان با سرور در ۵۰ کشور جهان</textarea>
+      <label>رنگ اصلی (Hex)</label>
+      <input id="bizColor" value="#7c3aed" />
+      <button class="btn" onclick="saveBusiness()">💾 ذخیره</button>
+    </div>
+
+    <!-- Products -->
+    <div class="card">
+      <h2>📦 محصولات</h2>
+      <div id="productList"></div>
+      <div class="row">
+        <input id="prodName" placeholder="نام انگلیسی" />
+        <input id="prodNameFa" placeholder="نام فارسی" />
+      </div>
+      <div class="row">
+        <input id="prodPrice" placeholder="قیمت" />
+        <input id="prodCategory" placeholder="دسته‌بندی" />
+      </div>
+      <textarea id="prodDesc" placeholder="توضیحات محصول"></textarea>
+      <button class="btn" onclick="addProduct()">➕ افزودن محصول</button>
+    </div>
+
+    <!-- Status -->
+    <div id="status"></div>
+
+    <!-- Test Chat -->
+    <div class="card">
+      <h2>💬 تست ربات</h2>
+      <p style="color: #a0a0b0; margin-bottom: 12px;">
+        برای تست API ربات، پیام زیر را ارسال کنید:
+      </p>
+      <div class="row">
+        <input id="testMessage" placeholder="پیام تست..." value="محصولاتتون چیه؟" />
+        <button class="btn" onclick="testBot()">🧪 ارسال تست</button>
+      </div>
+      <div id="testResult" style="margin-top: 12px; padding: 12px; background: #11111b; border-radius: 8px; min-height: 40px; color: #a0a0b0;"></div>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL = window.location.origin;
+
+    // Load embed code
+    fetch(BASE_URL + '/api/business')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('embedCode').textContent = 
+          `<script src="${BASE_URL}/embed.js"><\/script>`;
+      });
+
+    // Copy embed code
+    function copyCode() {
+      const code = document.getElementById('embedCode');
+      navigator.clipboard.writeText(code.textContent);
+      showStatus('✅ کد کپی شد!', 'success');
+    }
+
+    // Save business info
+    function saveBusiness() {
+      fetch(BASE_URL + '/api/admin/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'admin',
+          password: 'admin123',
+          name: document.getElementById('bizName').value,
+          nameFa: document.getElementById('bizNameFa').value,
+          description: document.getElementById('bizDesc').value,
+          primaryColor: document.getElementById('bizColor').value,
+        }),
+      })
+      .then(r => r.json())
+      .then(d => showStatus('✅ اطلاعات ذخیره شد!', 'success'))
+      .catch(e => showStatus('❌ خطا: ' + e.message, 'error'));
+    }
+
+    // Add product
+    function addProduct() {
+      const product = {
+        name: document.getElementById('prodName').value,
+        nameFa: document.getElementById('prodNameFa').value,
+        price: document.getElementById('prodPrice').value,
+        category: document.getElementById('prodCategory').value,
+        description: document.getElementById('prodDesc').value,
+      };
+      
+      const list = document.getElementById('productList');
+      const el = document.createElement('span');
+      el.className = 'badge';
+      el.textContent = product.nameFa || product.name;
+      list.appendChild(el);
+
+      // Clear inputs
+      ['prodName','prodNameFa','prodPrice','prodCategory','prodDesc'].forEach(id => 
+        document.getElementById(id).value = '');
+      
+      showStatus('✅ محصول اضافه شد! (در نسخه کامل ذخیره می‌شود)', 'success');
+    }
+
+    // Test bot
+    function testBot() {
+      const msg = document.getElementById('testMessage').value;
+      const result = document.getElementById('testResult');
+      result.textContent = '⏳ در حال ارسال...';
+      result.style.color = '#a0a0b0';
+
+      fetch(BASE_URL + '/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg }),
+      })
+      .then(r => r.json())
+      .then(d => {
+        result.textContent = '🤖 ' + d.reply;
+        result.style.color = '#22c55e';
+      })
+      .catch(e => {
+        result.textContent = '❌ خطا: ' + e.message;
+        result.style.color = '#dc2626';
+      });
+    }
+
+    function showStatus(msg, type) {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = type;
+      setTimeout(() => el.className = '', 3000);
+    }
+  </script>
+</body>
+</html>

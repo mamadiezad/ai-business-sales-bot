@@ -1,0 +1,29 @@
+{
+  "name": "ai-business-sales-bot",
+  "version": "2.0.0",
+  "description": "🤖 AI Business Sales Bot — ربات فروشنده هوشمند با OpenAI. مناسب برای فروشگاه‌ها، VPN فروش‌ها و هر کسب و کاری",
+  "main": "dist/server/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/server/index.ts",
+    "build": "tsc",
+    "start": "node dist/server/index.js",
+    "seed": "ts-node src/server/seed.ts"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "openai": "^4.52.0",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.4.0",
+    "chalk": "^4.1.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/uuid": "^9.0.8",
+    "typescript": "^5.4.5",
+    "ts-node-dev": "^2.0.0"
+  }
+}
