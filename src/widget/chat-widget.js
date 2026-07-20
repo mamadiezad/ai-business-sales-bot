@@ -145,4 +145,11 @@
       if (el) el.remove();
     },
   };
+
+  // Footer credit
+  const footer = document.createElement('div');
+  footer.style.cssText = 'text-align:center;padding:8px;font-size:10px;color:#6b7280;border-top:1px solid #313244;background:#0d1117';
+  footer.innerHTML = 'Built with ❤️ by <a href="https://t.me/llllxyz" style="color:#7c3aed;text-decoration:none">Mohammad</a>';
+  document.querySelector('.salesbot-card')?.appendChild(footer);
+
 })();
